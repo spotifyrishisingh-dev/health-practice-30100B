@@ -1,14 +1,81 @@
-
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Health I Practice Exam</title>
+<meta charset="UTF-8">
+<title>Health I Practice Exam</title>
+
+<style>
+body{
+ font-family:Arial,sans-serif;
+ max-width:900px;
+ margin:auto;
+ padding:20px;
+}
+.question{
+ margin:20px 0;
+ padding:15px;
+ border:1px solid #ddd;
+}
+button{
+ padding:10px 20px;
+ font-size:16px;
+}
+#result{
+ margin-top:20px;
+ background:#f5f5f5;
+ padding:20px;
+}
+</style>
+
 </head>
 <body>
 
 <h1>Health I (30100B) Practice Exam</h1>
 
-<p>Welcome! This site will host practice exams.</p>
+<div class="question">
+<b>1. Which nutrient is the body's primary source of energy?</b><br>
+<input type="radio" name="q1" value="A"> Protein<br>
+<input type="radio" name="q1" value="B"> Carbohydrates<br>
+<input type="radio" name="q1" value="C"> Vitamins<br>
+<input type="radio" name="q1" value="D"> Minerals<br>
+</div>
+
+<div class="question">
+<b>2. Which habit best prevents illness?</b><br>
+<input type="radio" name="q2" value="A"> Sharing drinks<br>
+<input type="radio" name="q2" value="B"> Handwashing<br>
+<input type="radio" name="q2" value="C"> Skipping sleep<br>
+<input type="radio" name="q2" value="D"> Ignoring symptoms<br>
+</div>
+
+<div class="question">
+<b>3. Which disease is communicable?</b><br>
+<input type="radio" name="q3" value="A"> Diabetes<br>
+<input type="radio" name="q3" value="B"> Influenza<br>
+<input type="radio" name="q3" value="C"> Cancer<br>
+<input type="radio" name="q3" value="D"> Asthma<br>
+</div>
+
+<button onclick="gradeExam()">Submit Exam</button>
+
+<div id="result"></div>
+
+<script>
+
+function gradeExam(){
+
+let score=0;
+
+if(document.querySelector('input[name="q1"]:checked')?.value==="B") score++;
+if(document.querySelector('input[name="q2"]:checked')?.value==="B") score++;
+if(document.querySelector('input[name="q3"]:checked')?.value==="B") score++;
+
+document.getElementById("result").innerHTML=
+"<h2>Score: "+score+"/3</h2>";
+
+}
+
+</script>
 
 </body>
 </html>
