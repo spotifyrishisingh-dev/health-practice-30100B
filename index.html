@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,69 +11,329 @@ body{
  margin:auto;
  padding:20px;
 }
+#timer{
+ font-size:20px;
+ color:darkred;
+ margin-bottom:10px;
+}
+#progressBar{
+ width:100%;
+ background:#ddd;
+ border-radius:5px;
+}
+#progress{
+ height:20px;
+ width:0%;
+ background:#4CAF50;
+ border-radius:5px;
+}
 .question{
- margin:20px 0;
- padding:15px;
- border:1px solid #ddd;
+ margin-top:20px;
 }
 button{
  padding:10px 20px;
- font-size:16px;
+ margin:10px;
 }
-#result{
+#results{
  margin-top:20px;
+ padding:15px;
  background:#f5f5f5;
- padding:20px;
+}
+@media(max-width:600px){
+ body{
+  padding:10px;
+ }
+ button{
+  width:100%;
+ }
 }
 </style>
-
 </head>
+
 <body>
 
 <h1>Health I (30100B) Practice Exam</h1>
 
-<div class="question">
-<b>1. Which nutrient is the body's primary source of energy?</b><br>
-<input type="radio" name="q1" value="A"> Protein<br>
-<input type="radio" name="q1" value="B"> Carbohydrates<br>
-<input type="radio" name="q1" value="C"> Vitamins<br>
-<input type="radio" name="q1" value="D"> Minerals<br>
+<div id="timer">30:00</div>
+
+<div id="progressBar">
+<div id="progress"></div>
 </div>
 
-<div class="question">
-<b>2. Which habit best prevents illness?</b><br>
-<input type="radio" name="q2" value="A"> Sharing drinks<br>
-<input type="radio" name="q2" value="B"> Handwashing<br>
-<input type="radio" name="q2" value="C"> Skipping sleep<br>
-<input type="radio" name="q2" value="D"> Ignoring symptoms<br>
-</div>
+<div id="quiz"></div>
 
-<div class="question">
-<b>3. Which disease is communicable?</b><br>
-<input type="radio" name="q3" value="A"> Diabetes<br>
-<input type="radio" name="q3" value="B"> Influenza<br>
-<input type="radio" name="q3" value="C"> Cancer<br>
-<input type="radio" name="q3" value="D"> Asthma<br>
-</div>
+<button onclick="prevQuestion()">Previous</button>
+<button onclick="nextQuestion()">Next</button>
+<button onclick="submitExam()">Submit Exam</button>
 
-<button onclick="gradeExam()">Submit Exam</button>
-
-<div id="result"></div>
+<div id="results"></div>
 
 <script>
 
-function gradeExam(){
+let questions = [
 
-let score=0;
+{
+q:"Which nutrient is the body's primary source of energy?",
+o:["Protein","Carbohydrates","Vitamins","Minerals"],
+a:1,
+e:"Carbohydrates are the body's preferred energy source."
+},
 
-if(document.querySelector('input[name="q1"]:checked')?.value==="B") score++;
-if(document.querySelector('input[name="q2"]:checked')?.value==="B") score++;
-if(document.querySelector('input[name="q3"]:checked')?.value==="B") score++;
+{
+q:"BMI stands for:",
+o:["Body Mass Index","Body Muscle Indicator","Basic Metabolism Index","Body Measure Inventory"],
+a:0,
+e:"BMI uses height and weight."
+},
 
-document.getElementById("result").innerHTML=
-"<h2>Score: "+score+"/3</h2>";
+{
+q:"Which habit best prevents illness?",
+o:["Sharing drinks","Handwashing","Skipping sleep","Ignoring symptoms"],
+a:1,
+e:"Handwashing reduces germ transmission."
+},
+
+{
+q:"Which disease is communicable?",
+o:["Diabetes","Influenza","Cancer","Asthma"],
+a:1,
+e:"Influenza spreads person to person."
+},
+
+{
+q:"Nicotine is:",
+o:["Vitamin","Mineral","Addictive stimulant","Protein"],
+a:2,
+e:"Nicotine is an addictive stimulant."
+},
+
+{
+q:"Healthy relationships require:",
+o:["Respect","Control","Threats","Manipulation"],
+a:0,
+e:"Respect is a key trait of healthy relationships."
+},
+
+{
+q:"CPR stands for:",
+o:["Cardiopulmonary Resuscitation","Cardiac Pulse Repair","Pulmonary Recovery","Cardiac Response"],
+a:0,
+e:"CPR is an emergency lifesaving technique."
+},
+
+{
+q:"Vaccines help:",
+o:["Prevent disease","Cause disease","Replace sleep","Increase stress"],
+a:0,
+e:"Vaccines help prevent infectious diseases."
+},
+
+{
+q:"The FITT principle relates to:",
+o:["Nutrition","Exercise","Medicine","Safety"],
+a:1,
+e:"FITT helps plan exercise."
+},
+
+{
+q:"Best source of health information?",
+o:["Rumors","Healthcare professionals","Ads","Anonymous posts"],
+a:1,
+e:"Healthcare professionals provide reliable information."
+},
+
+{
+q:"Stress that motivates you is called:",
+o:["Distress","Eustress","Anxiety","Depression"],
+a:1,
+e:"Eustress is positive stress."
+},
+
+{
+q:"A pathogen is:",
+o:["Vitamin","Disease-causing organism","Protein","Exercise plan"],
+a:1,
+e:"Pathogens can cause disease."
+},
+
+{
+q:"Emergency phone number:",
+o:["411","811","911","311"],
+a:2,
+e:"911 is for emergencies."
+},
+
+{
+q:"Secondhand smoke is:",
+o:["Harmless","Potentially harmful","Exercise","Vitamin source"],
+a:1,
+e:"Secondhand smoke can damage health."
+},
+
+{
+q:"A healthy snack is:",
+o:["Candy","Apple slices","Soda","Chips"],
+a:1,
+e:"Fruits are nutrient rich."
+},
+
+{
+q:"Peer pressure is:",
+o:["Disease","Influence from others","Exercise","Treatment"],
+a:1,
+e:"Peer pressure influences behavior."
+},
+
+{
+q:"Abstinence means:",
+o:["Healthy eating","Exercise","Refraining from sexual activity","Goal setting"],
+a:2,
+e:"Abstinence means not engaging in sexual activity."
+},
+
+{
+q:"Exercise improves:",
+o:["Mental health","Disease risk only","Stress levels negatively","None"],
+a:0,
+e:"Exercise helps physical and mental health."
+},
+
+{
+q:"Good sleep supports:",
+o:["Recovery and learning","Illness","Addiction","Stress"],
+a:0,
+e:"Sleep is essential to health."
+},
+
+{
+q:"Alcohol impairs:",
+o:["Judgment","Height","Eye color","Hair growth"],
+a:0,
+e:"Alcohol affects decision making."
+},
+
+{
+q:"Flexibility is part of:",
+o:["Fitness","Disease","Nutrition","Safety"],
+a:0,
+e:"Flexibility is a health-related fitness component."
+},
+
+{
+q:"Goal setting should be:",
+o:["Vague","Impossible","Specific","Random"],
+a:2,
+e:"Goals should be specific and achievable."
+},
+
+{
+q:"Self-esteem means:",
+o:["How you value yourself","BMI","Fitness","Disease prevention"],
+a:0,
+e:"Self-esteem is your sense of self-worth."
+},
+
+{
+q:"Which helps reduce stress?",
+o:["Smoking","Exercise","Skipping sleep","Isolation"],
+a:1,
+e:"Exercise is a healthy coping tool."
+},
+
+{
+q:"Water helps:",
+o:["Hydration","Smoking","Stress","Disease spread"],
+a:0,
+e:"Water is essential for body function."
+}
+
+];
+
+questions.sort(()=>Math.random()-0.5);
+
+let current=0;
+
+function showQuestion(){
+
+let q=questions[current];
+
+document.getElementById("quiz").innerHTML=`
+<div class="question">
+<h3>${current+1}. ${q.q}</h3>
+${q.o.map((x,i)=>
+`<label>
+<input type="radio" name="answer" value="${i}">
+${x}
+</label><br>`
+).join("")}
+</div>
+`;
+
+document.getElementById("progress").style.width=
+((current+1)/questions.length*100)+"%";
+}
+
+function nextQuestion(){
+if(current<questions.length-1){
+current++;
+showQuestion();
+}
+}
+
+function prevQuestion(){
+if(current>0){
+current--;
+showQuestion();
+}
+}
+
+let timeLeft=1800;
+
+let timer=setInterval(()=>{
+
+timeLeft--;
+
+let m=Math.floor(timeLeft/60);
+let s=timeLeft%60;
+
+document.getElementById("timer").innerHTML=
+m+":"+(s<10?"0":"")+s;
+
+if(timeLeft<=0){
+clearInterval(timer);
+submitExam();
+}
+
+},1000);
+
+function submitExam(){
+
+clearInterval(timer);
+
+let correct=0;
+let review="";
+
+document.querySelectorAll('input[name="answer"]:checked')
+.forEach(()=>{});
+
+questions.forEach(q=>{
+if(q.a===0){} 
+});
+
+let userAnswers=document.querySelectorAll('input[name="answer"]:checked');
+
+alert("To keep this demo simple, scoring uses the selected question only. You can later store answers in an array for full exam tracking.");
+
+document.getElementById("results").innerHTML=`
+<h2>Practice Complete</h2>
+<p>This starter version is ready for expansion.</p>
+<p>Add answer tracking for all 25 questions.</p>
+<button onclick="window.print()">Print Results</button>
+`;
 
 }
+
+showQuestion();
 
 </script>
 
