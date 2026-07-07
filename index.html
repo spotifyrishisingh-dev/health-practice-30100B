@@ -1,8 +1,3 @@
-let questions = [
- ...
-];
-let current = 0;
-let userAnswers = new Array(questions.length).fill(null);
 <!DOCTYPE html>
 <html>
 <head>
@@ -254,9 +249,11 @@ e:"Water is essential for body function."
 
 ];
 
+
 questions.sort(()=>Math.random()-0.5);
 
-let current=0;
+let current = 0;
+let userAnswers = new Array(questions.length).fill(null);
 
 function showQuestion(){
 
