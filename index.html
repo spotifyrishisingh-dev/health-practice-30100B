@@ -908,6 +908,9 @@ e:"Wellness includes multiple dimensions of health."
 
 questions.sort(()=>Math.random()-0.5);
 
+// Keep only 25 random questions
+questions = questions.slice(0,25);
+
 let current = 0;
 
 var userAnswers = [];
