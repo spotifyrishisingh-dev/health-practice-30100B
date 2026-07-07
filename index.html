@@ -253,7 +253,13 @@ e:"Water is essential for body function."
 questions.sort(()=>Math.random()-0.5);
 
 let current = 0;
-let userAnswers = new Array(questions.length).fill(null);
+
+var userAnswers = [];
+
+for(let i=0;i<questions.length;i++){
+    userAnswers.push(null);
+}
+
  
 console.log("Questions:", questions.length);
 console.log("UserAnswers:", userAnswers);
